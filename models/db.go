@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"fmt"
+	. "github.com/andyron/architchat/config"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"math/rand"
@@ -14,7 +15,10 @@ var Db *sql.DB // 数据库连接池
 // 数据库连接初始化方法
 func init() {
 	var err error
-	Db, err = sql.Open("mysql", "root:33824@/chitchat?charset=utf8&parseTime=true")
+	config := LoadConfig()
+	driver := config.Db.Driver
+	source := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=true", config.Db.User, config.Db.Password, config.Db.Address, config.Db.Database)
+	Db, err = sql.Open(driver, source)
 	if err != nil {
 		log.Fatal(err)
 	}
