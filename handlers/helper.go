@@ -3,18 +3,28 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	. "github.com/andyron/architchat/config"
 	"github.com/andyron/architchat/models"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"text/template"
+	"time"
 )
 
 var logger *log.Logger
+var config *Configuration
+var localizer *i18n.Localizer
 
 // 初始化日志处理器
 func init() {
+	// 获取全局配置实例
+	config = LoadConfig()
+	// 获取本地化实例
+	localizer = i18n.NewLocalizer(config.LocaleBundle, config.App.Language)
+
 	file, err := os.OpenFile("logs/architchat.log", os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln("Failed to open log file", err)
@@ -59,26 +69,36 @@ func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err e
 }
 
 // 解析HTML模板（应对需要传入多个模板文件的情况，避免重复编写模板代码）
-func parseTemplateFiles(filenames ...string) (t *template.Template) {
-	var files []string
-	t = template.New("layout")
-	for _, file := range filenames {
-		files = append(files, fmt.Sprintf("views/%s.html", file))
-	}
-	t = template.Must(t.ParseFiles(files...))
-	return
-}
+//func parseTemplateFiles(filenames ...string) (t *template.Template) {
+//	var files []string
+//	t = template.New("layout")
+//	for _, file := range filenames {
+//		files = append(files, fmt.Sprintf("views/%s.html", file))
+//	}
+//	t = template.Must(t.ParseFiles(files...))
+//	return
+//}
 
 // 生成HTML
 func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {
 	var files []string
 	for _, file := range filenames {
-		files = append(files, fmt.Sprintf("views/%s.html", file))
+		files = append(files, fmt.Sprintf("views/%s/%s.html", config.App.Language, file))
 	}
-	templates := template.Must(template.ParseFiles(files...))
+
+	funcMap := template.FuncMap{"fdate": formatDate}
+	t := template.New("layout").Funcs(funcMap)
+
+	templates := template.Must(t.ParseFiles(files...))
 	templates.ExecuteTemplate(writer, "layout", data)
 }
 
 func Version() string {
 	return "0.1"
+}
+
+// 日期格式化辅助函数
+func formatDate(t time.Time) string {
+	datetime := "2006-01-02 15:04:05"
+	return t.Format(datetime)
 }

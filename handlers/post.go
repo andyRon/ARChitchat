@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"github.com/andyron/architchat/models"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"net/http"
 )
 
@@ -27,7 +28,10 @@ func PostThread(w http.ResponseWriter, r *http.Request) {
 		uuid := r.PostFormValue("uuid")
 		thread, err := models.ThreadByUUID(uuid)
 		if err != nil {
-			error_message(w, r, "Cannot create thread")
+			msg := localizer.MustLocalize(&i18n.LocalizeConfig{
+				MessageID: "thread_not_found",
+			})
+			error_message(w, r, msg)
 		}
 		if _, err := user.CreatePost(thread, body); err != nil {
 			//fmt.Println("Cannot create post")

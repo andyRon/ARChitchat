@@ -12,7 +12,7 @@ type Thread struct {
 
 // 格式化时间
 func (thread *Thread) CreatedAtDate() string {
-	return thread.CreatedAt.Format("2006-12-2 13:04")
+	return thread.CreatedAt.Format("2006-01-02 15:04:05")
 }
 
 func (thread *Thread) NumReplies() (count int) {

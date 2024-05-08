@@ -9,8 +9,9 @@ import (
 
 // GET /login
 func Login(w http.ResponseWriter, r *http.Request) {
-	t := parseTemplateFiles("auth.layout", "navbar", "login")
-	t.Execute(w, nil)
+	//t := parseTemplateFiles("auth.layout", "navbar", "login")
+	//t.Execute(w, nil)
+	generateHTML(w, nil, "auth.layout", "navbar", "login")
 }
 
 // GET /signup
