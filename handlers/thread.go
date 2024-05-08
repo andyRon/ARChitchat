@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/andyron/architchat/models"
 	"net/http"
 )
@@ -28,15 +27,18 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	} else {
 		err = r.ParseForm()
 		if err != nil {
-			fmt.Println("Cannot parse form")
+			//fmt.Println("Cannot parse form")
+			danger(err, "Cannot parse form")
 		}
 		user, err := sess.User()
 		if err != nil {
-			fmt.Println("Cannot get user from session")
+			//fmt.Println("Cannot get user from session")
+			danger(err, "Cannot get user from session")
 		}
 		topic := r.PostFormValue("topic")
 		if _, err := user.CreateThread(topic); err != nil {
-			fmt.Println("Cannot create thread")
+			//fmt.Println("Cannot create thread")
+			danger(err, "Cannot create thread")
 		}
 		http.Redirect(w, r, "/", 302)
 	}
@@ -49,7 +51,7 @@ func ReadThread(w http.ResponseWriter, r *http.Request) {
 	uuid := vals.Get("id")
 	thread, err := models.ThreadByUUID(uuid)
 	if err != nil {
-		fmt.Println("Cannot read thread")
+		error_message(w, r, "Cannot read thread")
 	} else {
 		_, err := session(w, r)
 		if err != nil {

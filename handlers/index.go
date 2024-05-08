@@ -17,3 +17,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// 全局的、渲染错误页面的处理器
+func Err(w http.ResponseWriter, r *http.Request) {
+	vals := r.URL.Query()
+	_, err := session(w, r)
+	if err != nil {
+		generateHTML(w, vals.Get("msg"), "layout", "navbar", "error")
+	} else {
+		generateHTML(w, vals.Get("msg"), "layout", "auth.navbar", "error")
+	}
+}

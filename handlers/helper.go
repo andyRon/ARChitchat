@@ -4,9 +4,47 @@ import (
 	"errors"
 	"fmt"
 	"github.com/andyron/architchat/models"
+	"log"
 	"net/http"
+	"os"
+	"strings"
 	"text/template"
 )
+
+var logger *log.Logger
+
+// 初始化日志处理器
+func init() {
+	file, err := os.OpenFile("logs/architchat.log", os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalln("Failed to open log file", err)
+	}
+	logger = log.New(file, "INFO", log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+/* 日志函数 */
+func info(args ...interface{}) {
+	logger.SetPrefix("INFO ")
+	logger.Println(args...)
+}
+
+// 避免与error重复
+func danger(args ...interface{}) {
+	logger.SetPrefix("ERROR ")
+	logger.Println(args...)
+}
+func warning(args ...interface{}) {
+	logger.SetPrefix("WARNING ")
+	logger.Println(args...)
+}
+
+/***************/
+
+// 异常处理统一重定向到错误页面
+func error_message(w http.ResponseWriter, r *http.Request, msg string) {
+	url := []string{"/err?msg=", msg}
+	http.Redirect(w, r, strings.Join(url, ""), 302)
+}
 
 // 通过 Cookie 判断用户是否已登录
 func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err error) {
