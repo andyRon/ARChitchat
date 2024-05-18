@@ -1,7 +1,7 @@
 在线论坛
 ----
 
-https://laravelacademy.org/post/21519
+参考：https://laravelacademy.org/post/21519
 
 ARChitchat
 
@@ -15,11 +15,11 @@ ARChitchat
 
 ### 技术方案
 
-![](images/image-15850624895084.jpg)
+![](images/image-20240519003616881.png)
 
-> 注：上图中 Client 代表客户端发起请求的用户，虚框内是部署在服务器已启动的在线论坛应用，Multiplexer 代表路由器（比如 `gorilla/mux` ），Handler 代码处理器/处理器方法，数据库操作位于处理器方法中，Templates 代表最终展示给用户的经过模板引擎编译过的视图模板。
+Client 代表客户端发起请求的用户，虚框内是部署在服务器已启动的在线论坛应用，Multiplexer 代表路由器（比如 [gorilla/mux](https://github.com/gorilla/mux) ），Handler 代码处理器/处理器方法，数据库操作位于处理器方法中，Templates 代表最终展示给用户的经过模板引擎编译过的视图模板。
 
-
+Go Web项目因为静态语言和实现机制的缘故不需要借助类似 php-fpm、nginx 这种额外的HTTP 服务器、反向代理服务器，Go 应用**以单文件形式部**署，静态资源和视图模板的部署与传统动态语言不一样等。
 
 ### 数据模型
 
@@ -29,13 +29,28 @@ ARChitchat
 
 
 
-在本项目开发时，会把用户会话（Session）也存储到数据库，所以需要一个额外的会话模型，此外，为了简化应用，我们不会真的像 Google 网上论坛那样对用户做权限管理，整个应用只包含一种用户类型，并且具备所有操作权限：
+在本项目开发时，会把用户会话（Session）也存储到数据库，所以需要一个额外的会话模型，此外，为了简化应用，我们不会真的像Google网上论坛那样对用户做权限管理，整个应用只包含一种用户类型，并且具备所有操作权限：
 
-![](images/image-DraggedImage-1.png)
+![](images/image-DraggedImage-1 00.36.28.png)
 
 
 
 ## 2 通过模型类与MySQL数据库交互
+
+### 项目初始化
+
+目录/文件的作用介：
+
+- `main.go`：应用入口文件
+- `config.json`：全局配置文件
+- `handlers`：用于存放处理器代码（可类比为 MVC 模式中的控制器目录）
+- `logs`：用于存放日志文件
+- `models`：用于存放与数据库交互的模型类
+- `public`：用于存放前端资源文件，比如图片、CSS、JavaScript 等
+- `routes`：用于存放路由文件和路由器实现代码
+- `views`：用于存放视图模板文件
+
+
 
 
 
@@ -45,7 +60,7 @@ go mod init github.com/andyron/architchat
 
 
 
-
+### 创建数据表
 
 ```sql
 create table users (
@@ -85,11 +100,27 @@ create table posts (
 
 
 
+### 与数据库交互
 
+#### 数据库驱动
 
-```
+第三方包 [go-mysql-driver](https://github.com/go-sql-driver/mysql) 
+
+```sh
 go get github.com/go-sql-driver/mysql
 ```
+
+#### 数据库连接
+
+
+
+#### 用户相关模型类
+
+
+
+#### 主题相关模型类
+
+
 
 
 

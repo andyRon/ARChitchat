@@ -28,7 +28,7 @@ func init() {
 // 创建随机UUID，RFC 4122
 func createUUID() (uuid string) {
 	u := new([16]byte)
-	_, err := rand.Read(u[:])
+	_, err := rand.Read(u[:]) // TODO
 	if err != nil {
 		log.Fatalln("Cannot generate UUID", err)
 	}

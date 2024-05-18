@@ -10,7 +10,7 @@ type Session struct {
 	CreatedAt time.Time
 }
 
-// 核查当前session是否在数据库中
+// Check 核查当前session是否在数据库中
 func (session *Session) Check() (valid bool, err error) {
 	err = Db.QueryRow("SELECT id, uuid, email, user_id, created_at FROM sessions WHERE uuid = ?", session.Uuid).
 		Scan(&session.Id, &session.Uuid, &session.Email, &session.UserId, &session.CreatedAt)
@@ -37,7 +37,7 @@ func (session *Session) DeleteByUUID() (err error) {
 	return
 }
 
-// 获取用户session
+// User 获取用户session
 func (session *Session) User() (user User, err error) {
 	user = User{}
 	err = Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = ?", session.UserId).
@@ -45,7 +45,7 @@ func (session *Session) User() (user User, err error) {
 	return
 }
 
-// 删除所有session
+// SessionDeleteAll 删除所有session
 func SessionDeleteAll() (err error) {
 	statement := "delete from sessions"
 	_, err = Db.Exec(statement)

@@ -120,7 +120,7 @@ func UserByUUID(uuid string) (user User, err error) {
 	return
 }
 
-// 与Thread模型关联。创建Thread
+// CreateThread 与Thread模型关联。创建Thread
 func (user *User) CreateThread(topic string) (conv Thread, err error) {
 	statement := "insert into threads (uuid, topic, user_id, created_at) values (?, ?, ?, ?)"
 	stmtin, err := Db.Prepare(statement)
@@ -142,7 +142,7 @@ func (user *User) CreateThread(topic string) (conv Thread, err error) {
 	return
 }
 
-// 与Post模型关联。创建Post
+// CreatePost 与Post模型关联。创建Post
 func (user *User) CreatePost(conv Thread, body string) (post Post, err error) {
 	statement := "insert into posts (uuid, body, user_id, thread_id, created_at) values (?, ?, ?, ?, ?)"
 	stmtin, err := Db.Prepare(statement)
