@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Thread 群组模型类
 type Thread struct {
 	Id        int
 	Uuid      string
@@ -10,7 +11,7 @@ type Thread struct {
 	CreatedAt time.Time
 }
 
-// 格式化时间
+// CreatedAtDate 格式化时间
 func (thread *Thread) CreatedAtDate() string {
 	return thread.CreatedAt.Format("2006-01-02 15:04:05")
 }

@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Session 会话模型类
 type Session struct {
 	Id        int
 	Uuid      string

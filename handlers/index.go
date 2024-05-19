@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// 论坛首页路由处理器方法
+// Index 论坛首页路由处理器方法
 func Index(w http.ResponseWriter, r *http.Request) {
 	threads, err := models.Threads()
 	if err == nil {
@@ -18,7 +18,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// 全局的、渲染错误页面的处理器
+// Err 全局的、渲染错误页面的处理器
 func Err(w http.ResponseWriter, r *http.Request) {
 	vals := r.URL.Query()
 	_, err := session(w, r)

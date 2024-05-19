@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// 具体路由
+// WebRoute 具体路由
 type WebRoute struct {
 	Name        string
 	Method      string

@@ -34,7 +34,7 @@ type Configuration struct {
 var config *Configuration
 var once sync.Once
 
-// 通过单例模式初始化全局配置
+// LoadConfig 通过单例模式初始化全局配置
 func LoadConfig() *Configuration {
 	once.Do(func() {
 		file, err := os.Open("config.json")

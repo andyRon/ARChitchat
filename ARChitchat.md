@@ -3,7 +3,7 @@
 
 参考：https://laravelacademy.org/post/21519
 
-ARChitchat
+ARChitchat，基于Go语言构建在线论坛。
 
 ## 1 整体设计与数据模型
 
@@ -126,7 +126,65 @@ go get github.com/go-sql-driver/mysql
 
 ## 3 访问论坛首页
 
+### 3.1 定义路由器
 
+基于 [gorilla/mux](https://github.com/gorilla/mux) 来实现路由器：
+
+```sh
+go get github.com/gorilla/mux
+```
+
+仿照Laravel框架对Go路由处理器代码进行拆分
+
+
+
+### 3.2 启动HTTP服务器
+
+
+
+> ```go
+> 	. "github.com/andyron/architchat/routes"
+> 
+> 	_ "github.com/go-sql-driver/mysql"
+> ```
+>
+>  `.` 别名，通过这种方式引入的包可以直接调用包中对外可见的变量、方法和结构体，而不需要加上包名前缀。
+>
+>  `_` 别名，只会调用该包里定义的 `init` 方法。🔖
+
+
+
+### 3.3 处理静态资源
+
+
+
+### 3.4 编写处理器实现
+
+
+
+#### 首页处理器方法
+
+#### 创建视图模板
+
+使用 Go 自带的 `html/template` 作为模板引擎
+
+主布局文件 `layout.html`
+
+顶部导航模板 `navbar.html`
+
+首页视图模板 `index.html`
+
+
+
+引入多个视图模板是为了提高模板代码的复用性，因为对于同一个应用的不同页面来说，可能基本布局、页面顶部导航和页面底部组件都是一样的。
+
+#### 渲染视图模板
+
+
+
+#### 注册首页路由
+
+### 访问论坛首页
 
 
 

@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// User 用户模型类
 type User struct {
 	Id        int
 	Uuid      string
