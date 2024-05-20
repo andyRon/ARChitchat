@@ -10,6 +10,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	threads, err := models.Threads()
 	if err == nil {
 		_, err := session(w, r)
+		// 区别用户认证与未认证状态
 		if err != nil {
 			generateHTML(w, threads, "layout", "navbar", "index")
 		} else {

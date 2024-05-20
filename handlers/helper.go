@@ -14,6 +14,8 @@ import (
 	"time"
 )
 
+// 全局辅助函数（主要用在处理器中）
+
 var logger *log.Logger
 var config *Configuration
 var localizer *i18n.Localizer
@@ -25,7 +27,7 @@ func init() {
 	// 获取本地化实例
 	localizer = i18n.NewLocalizer(config.LocaleBundle, config.App.Language)
 
-	file, err := os.OpenFile("logs/architchat.log", os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile("logs/architchat.log", os.O_CREATE|os.O_APPEND, 0666) // TODO
 	if err != nil {
 		log.Fatalln("Failed to open log file", err)
 	}
@@ -38,7 +40,7 @@ func info(args ...interface{}) {
 	logger.Println(args...)
 }
 
-// 避免与error重复
+// 命名为danger是为了避免与error重复
 func danger(args ...interface{}) {
 	logger.SetPrefix("ERROR ")
 	logger.Println(args...)
@@ -51,12 +53,12 @@ func warning(args ...interface{}) {
 /***************/
 
 // 异常处理统一重定向到错误页面
-func error_message(w http.ResponseWriter, r *http.Request, msg string) {
+func errorMessage(w http.ResponseWriter, r *http.Request, msg string) {
 	url := []string{"/err?msg=", msg}
 	http.Redirect(w, r, strings.Join(url, ""), 302)
 }
 
-// 通过 Cookie 判断用户是否已登录
+// 通过Cookie判断用户是否已登录
 func session(w http.ResponseWriter, r *http.Request) (sess models.Session, err error) {
 	cookie, err := r.Cookie("_cookie")
 	if err != nil {
@@ -90,7 +92,7 @@ func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...str
 	t := template.New("layout").Funcs(funcMap)
 
 	templates := template.Must(t.ParseFiles(files...))
-	templates.ExecuteTemplate(writer, "layout", data)
+	templates.ExecuteTemplate(writer, "layout", data) // TODO
 }
 
 func Version() string {

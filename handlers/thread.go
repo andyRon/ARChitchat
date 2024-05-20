@@ -8,8 +8,7 @@ import (
 
 // 群组
 
-// GET /threads/new
-// 创建群组页面
+// NewThread GET /threads/new 创建群组页面
 func NewThread(w http.ResponseWriter, r *http.Request) {
 	_, err := session(w, r)
 	if err != nil {
@@ -19,8 +18,7 @@ func NewThread(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// POST /thread/create
-// 执行群组创建逻辑
+// CreateThread POST /thread/create 执行群组创建逻辑
 func CreateThread(w http.ResponseWriter, r *http.Request) {
 	sess, err := session(w, r)
 	if err != nil {
@@ -45,8 +43,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// GET /thread/read
-// 通过ID渲染指定群组页面
+// ReadThread GET /thread/read 通过ID渲染指定群组页面
 func ReadThread(w http.ResponseWriter, r *http.Request) {
 	vals := r.URL.Query()
 	uuid := vals.Get("id")
@@ -55,7 +52,7 @@ func ReadThread(w http.ResponseWriter, r *http.Request) {
 		msg := localizer.MustLocalize(&i18n.LocalizeConfig{
 			MessageID: "thread_not_found",
 		})
-		error_message(w, r, msg)
+		errorMessage(w, r, msg)
 	} else {
 		_, err := session(w, r)
 		if err != nil {

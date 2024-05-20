@@ -37,7 +37,7 @@ var once sync.Once
 // LoadConfig 通过单例模式初始化全局配置
 func LoadConfig() *Configuration {
 	once.Do(func() {
-		file, err := os.Open("config.json")
+		file, err := os.Open("configuration.json")
 		if err != nil {
 			log.Fatalln("Cannot open config file", err)
 		}

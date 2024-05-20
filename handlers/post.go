@@ -7,8 +7,9 @@ import (
 	"net/http"
 )
 
-// POST /thread/post
-// 在指定群组下创建新主题
+// 主题处理器
+
+// PostThread POST /thread/post 在指定群组下创建新主题
 func PostThread(w http.ResponseWriter, r *http.Request) {
 	sess, err := session(w, r)
 	if err != nil {
@@ -31,7 +32,7 @@ func PostThread(w http.ResponseWriter, r *http.Request) {
 			msg := localizer.MustLocalize(&i18n.LocalizeConfig{
 				MessageID: "thread_not_found",
 			})
-			error_message(w, r, msg)
+			errorMessage(w, r, msg)
 		}
 		if _, err := user.CreatePost(thread, body); err != nil {
 			//fmt.Println("Cannot create post")

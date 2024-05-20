@@ -7,21 +7,19 @@ import (
 
 // 用户认证相关处理器
 
-// GET /login
+// Login GET /login
 func Login(w http.ResponseWriter, r *http.Request) {
 	//t := parseTemplateFiles("auth.layout", "navbar", "login")
 	//t.Execute(w, nil)
 	generateHTML(w, nil, "auth.layout", "navbar", "login")
 }
 
-// GET /signup
-// 注册页面
+// Signup 注册页面 GET /signup
 func Signup(w http.ResponseWriter, r *http.Request) {
 	generateHTML(w, nil, "auth.layout", "navbar", "signup")
 }
 
-// POST /signup
-// 注册新用户
+// SingupAccount 注册新用户 POST /signup
 func SingupAccount(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -40,8 +38,7 @@ func SingupAccount(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", 302)
 }
 
-// POST /authenticate
-// 通过邮箱和密码字段对用户进行认证
+// Authenticate POST /authenticate 通过邮箱和密码字段对用户进行认证
 func Authenticate(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	user, err := models.UserByEmail(r.PostFormValue("email"))
@@ -67,7 +64,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// GET /logout
+// Logout GET /logout
 func Logout(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("_cookie")
 	if err != http.ErrNoCookie {
