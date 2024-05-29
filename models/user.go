@@ -12,6 +12,7 @@ type User struct {
 	CreatedAt time.Time
 }
 
+// CreateSession 为当前用创建Session
 func (user *User) CreateSession() (session Session, err error) {
 	statement := "insert into sessions  (uuid, email, user_id, created_at) values (?, ?, ?, ?)"
 	stmtin, err := Db.Prepare(statement)
@@ -33,6 +34,7 @@ func (user *User) CreateSession() (session Session, err error) {
 	return
 }
 
+// Session 获得当前用户的Session
 func (user *User) Session() (session Session, err error) {
 	session = Session{}
 	err = Db.QueryRow("SELECT id, uuid, email, user_id, created_at FROM sessions WHERE user_id = ?", user.Id).
@@ -40,6 +42,7 @@ func (user *User) Session() (session Session, err error) {
 	return
 }
 
+// Create 创建用户
 func (user *User) Create() (err error) {
 	statement := "insert into users (uuid, name, email, password, created_at) values (?, ?, ?, ?, ?)"
 	stmtin, err := Db.Prepare(statement)
@@ -61,6 +64,7 @@ func (user *User) Create() (err error) {
 	return
 }
 
+// Delete 删除用户
 func (user *User) Delete() (err error) {
 	statement := "delete from users where id = ?"
 	stmt, err := Db.Prepare(statement)
@@ -73,6 +77,7 @@ func (user *User) Delete() (err error) {
 	return
 }
 
+// Update 更新用户数据
 func (user *User) Update() (err error) {
 	statement := "update users set name = ?, email = ? where id = ?"
 	stmt, err := Db.Prepare(statement)
@@ -91,6 +96,7 @@ func UserDeleteAll() (err error) {
 	return
 }
 
+// Users 获得所有用户信息
 func Users() (users []User, err error) {
 	rows, err := Db.Query("SELECT id, uuid, name, email, password, created_at FROM users")
 	if err != nil {

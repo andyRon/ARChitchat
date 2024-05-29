@@ -14,11 +14,11 @@ func NewThread(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Redirect(w, r, "/login", 302)
 	} else {
-		generateHTML(w, nil, "layout", "auth,navbar", "new.thread")
+		generateHTML(w, nil, "layout", "auth.navbar", "new.thread")
 	}
 }
 
-// CreateThread POST /thread/create 执行群组创建逻辑
+// CreateThread POST /thread/create 创建群组
 func CreateThread(w http.ResponseWriter, r *http.Request) {
 	sess, err := session(w, r)
 	if err != nil {

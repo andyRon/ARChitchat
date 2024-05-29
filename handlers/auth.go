@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/andyron/architchat/models"
 	"net/http"
 )
@@ -68,9 +69,12 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 func Logout(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("_cookie")
 	if err != http.ErrNoCookie {
-		//fmt.Println("Failed to get cookie")
+
+		fmt.Println("Failed to get cookie", cookie.Value)
+
 		warning(err, "Failed to get cookie")
 		session := models.Session{Uuid: cookie.Value}
+
 		session.DeleteByUUID()
 	}
 	http.Redirect(w, r, "/", 302)

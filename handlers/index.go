@@ -8,6 +8,7 @@ import (
 // Index 论坛首页路由处理器方法
 func Index(w http.ResponseWriter, r *http.Request) {
 	threads, err := models.Threads()
+
 	if err == nil {
 		_, err := session(w, r)
 		// 区别用户认证与未认证状态

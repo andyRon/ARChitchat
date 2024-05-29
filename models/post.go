@@ -12,11 +12,12 @@ type Post struct {
 	CreatedAt time.Time
 }
 
+// CreatedAtDate 格式化创建时间
 func (post *Post) CreatedAtDate() string {
-	return post.CreatedAt.Format("Jan 2, 2006 at 3:04pm")
+	return post.CreatedAt.Format("2006-01-02 15:04:05") // TODO
 }
 
-// User Get the user who wrote the post
+// User 根据主题获取用户信息
 func (post *Post) User() (user User) {
 	user = User{}
 	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = ?", post.UserId).

@@ -15,7 +15,7 @@ type WebRoute struct {
 
 type WebRoutes []WebRoute
 
-// 定义所有 Web 路由
+// 定义所有Web路由
 var webRoutes = WebRoutes{
 	{
 		"home",
